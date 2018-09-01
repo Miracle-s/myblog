@@ -1,9 +1,0 @@
-from django.db import models
-from django import forms
-from django.contrib.auth.models import User
-from .models import UserInfo
-from django.forms import widgets
-
-class LoginForm(forms.Form):
-    username = forms.CharField(widget=widgets.TextInput)
-    password = forms.CharField(widget=forms.PasswordInput)
