@@ -1,0 +1,67 @@
+{% extends '../base.html' %}
+
+{% block title %}article{% endblock %}
+
+{% block content %}
+    <div class="col-sm-8">
+        <h2 class="text-center">My Information</h2>
+        <hr>
+        <div class="col-sm-8">
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>用户名：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ username }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>Email：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ email }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>手机：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userInfo.phone }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>公司：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userInfo.company }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>毕业院校：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userInfo.school }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>专业：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userInfo.profession }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>住址：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userInfo.address }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>简介：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userInfo.aboutme }}</span></div>
+            </div>
+            <div style='margin-top:40px;padding-left:120px'>
+                 <a href='{% url "account:my_info_edit" %}'><button class='btn btn-primary btn-lg' id='my_info_edit'>编辑信息</button></a>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            {% load staticfiles %}
+            <div style='margin-right:60px; padding-top:10px'>
+                {% if userInfo.photo %}
+                    <img name='user_face' src="{{ userInfo.photo| striptags }}" class='img-circle' id='my_photo' name='user_face'>
+                {% else %}
+                   <img name='user_face' src='{% static "img/newton.jpg" %}' class='img-circle' id='my_photo'>
+                {% endif %} 
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4" style="border:solid 2px;">
+        <h4 style="text-align:center;">留言版</h4>
+        <hr>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae nulla rerum, reiciendis voluptatibus tempore consequatur tenetur, dignissimos ab et beatae? Voluptas eaque ad voluptatum neque a cupiditate odio possimus vel!
+    </div>
+
+
+{% endblock %}
+
+
+

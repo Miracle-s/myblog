@@ -1,0 +1,84 @@
+{% extends '../base.html' %}
+
+{% block title %}article{% endblock %}
+
+{% block content %}
+        <h2 class="text-center">Edit My Information</h2>
+        <hr>
+        <div class="col-sm-7">
+            <form class="form-horizontal" action="{% url 'account:my_info_edit' %}" method="post">{% csrf_token %}
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>用户名：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ username }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="col-sm-4 text-right"><span>Email：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ email }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="alert-danger" style="margin-bottom:10px; border-radius:5px" >{{ userinfo_form.phone.errors }}</div>
+                <div class="col-sm-4 text-right"><span>手机：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userinfo_form.phone }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="alert-danger" style="margin-bottom:10px; border-radius:5px" >{{ userinfo_form.company.errors }}</div>
+                <div class="col-sm-4 text-right"><span>公司：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userinfo_form.company }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="alert-danger" style="margin-bottom:10px; border-radius:5px" >{{ userinfo_form.school.errors }}</div>
+                <div class="col-sm-4 text-right"><span>毕业院校：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userinfo_form.school }}</span></div>
+            </div>
+            
+            <div class="row myinfo">
+                <div class="alert-danger" style="margin-bottom:10px; border-radius:5px" >{{ userinfo_form.profession.errors }}</div>
+                <div class="col-sm-4 text-right"><span>专业：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userinfo_form.profession }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="alert-danger" style="margin-bottom:10px; border-radius:5px" >{{ userinfo_form.address.errors }}</div>
+                <div class="col-sm-4 text-right"><span>住址：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userinfo_form.address }}</span></div>
+            </div>
+            <div class="row myinfo">
+                <div class="alert-danger" style="margin-bottom:10px; border-radius:5px" >{{ userinfo_form.aboutme.errors }}</div>
+                <div class="col-sm-4 text-right"><span>简介：</span></div>
+                <div class="col-sm-8 text-left"><span>{{ userinfo_form.aboutme }}</span></div>
+            </div>
+            <div>
+                <input type="submit" style="margin-left:220px" class="btn btn-primary btn-lg" value="提交">
+            </div>
+        </div>
+        </form>
+        <div class="col-sm-5">
+            {% load staticfiles %}
+            <div style='margin:15px 90px'>
+                {% if photo %}
+                    <img name='user_face' src="{{ photo }}" class='img-circle' id='my_photo' name='user_face'>
+                {% else %}
+                   <img name='user_face' src='{% static "img/newton.jpg" %}' class='img-circle' id='my_photo'>
+                {% endif %} 
+            </div>
+            <div style='margin:30px 160px'>
+                <button class='btn btn-primary btn-lg' id='upload_image' onclick='upload_image_layer()'>上传图片</button>
+            </div>
+        </div>
+
+<script type='text/javascript' src='{% static "js/layer.js" %}'></script>
+<script>
+function upload_image_layer(){
+    layer.open({
+        title:"上传头像",
+        area: ['650px','600px'],
+        type: 2,
+        content: "{% url 'account:my_image' %}",
+    });
+}
+</script>
+
+
+{% endblock %}
+
+
+

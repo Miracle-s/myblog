@@ -1,0 +1,122 @@
+{% extends '../base.html' %}
+
+{% block title %}article{% endblock %}
+
+{% block content %}
+    <div class="col-sm-9">
+      <div class="news-title">
+        <h2>{{ article.title }}</h2>
+        <hr>
+      </div>
+      <div class="news-status">{{ article.author }}   {{ article.num_read }} 阅读   {{ article.num_good }} 点赞  {{ article.u_date }}
+        <div class="label label-default">教育</div>
+        <div class="label label-default">python</div>
+      </div>
+      <div class="news-content">
+        <blockquote>
+          <p>{{ article.bref }}</p>
+        </blockquote>
+      </div>
+<!--markdown body--> 
+{% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'editor/css/editormd.preview.css' %}"/>
+    <div id='editormd-view'>
+        <textarea id="append-test" style="display:none;">
+            {{ article.body }}
+        </textarea>
+    </div>
+    <nav aria-label="...">
+    <ul class="pager">
+        {% if art_pre %}
+        <li class="previous"><a href="{% url 'blog:article_detail' art_pre %}" style="font-size:18px; margin-left:30px"><span aria-hidden="true">&larr;</span> Previous</a></li>
+        {% endif %}
+        {% if art_next %}
+        <li class="next"><a href="{% url 'blog:article_detail' art_next %}" style="font-size:18px; margin-right:30px">Next <span aria-hidden="true">&rarr;</span></a></li>
+        {% endif %}
+    </ul>
+    </nav>
+    <hr>
+    <div class="media">
+      <h3>评论区 ....</h3>
+      <div class="media-body">
+        <h5>{{ article.author }}  |  {{ article.bref }}</h5>
+        <textarea style="display:none;">
+            {{ article.body }}
+        </textarea>
+      </div>
+    </div>
+<script src='{% static "js/jquery.js" %}'></script>
+<script src='{% static "editor/lib/marked.min.js" %}'></script>
+<script src='{% static "editor/lib/prettify.min.js" %}'></script>
+<script src='{% static "editor/lib/raphael.min.js" %}'></script>
+<script src='{% static "editor/lib/underscore.min.js" %}'></script>
+<script src='{% static "editor/lib/sequence-diagram.min.js" %}'></script>
+<script src='{% static "editor/lib/flowchart.min.js" %}'></script>
+<script src='{% static "editor/lib/jquery.flowchart.min.js" %}'></script>
+<script src='{% static "editor/editormd.js" %}'></script>
+
+<script type="text/javascript">
+$(function(){
+    editormd.markdownToHTML("editormd-view", {
+        htmlDecode:"style,script,iframe",
+        emoji:true,
+        taskList:true,
+        tex:true,
+        flowChart:true,
+        sequenceDiagra:true,
+    });
+});
+</script>
+
+<!--markdown body-->       
+ 
+      </div>
+    <div class="col-sm-3">
+          <div class="side-bar-card flag clearfix" align="center">
+        <div class="text-lg">{{ userInfo.user.username }}</div>
+
+        {% if userInfo.photo %}
+          <img name='user_face' style="width:50%;height:55%"src="{{ userInfo.photo| striptags }}" class='img-circle' id='my_photo' name='user_face'>
+        {% else %}
+          <img name='user_face' src='{% static "img/newton.jpg" %}' class='img-circle' id='my_photo'>
+        {% endif %}
+
+        <div class="info_blog" style="margin-top:20px">简介: {{ userInfo.aboutme }}</div>
+        <div class="info_blog">Email：{{ userInfo.user.email }}</div>
+      </div>
+      <div class="side-bar-card">
+        <div class="card-title">最受欢迎文章</div>
+        <div class="card-body">
+          <div class="list">
+            <div class="item">
+              <div class="titl">
+                <ul style="padding-left:10px">
+                {% for item in most_like_arts %}
+                  <li><a href="{% url 'blog:article_detail' item.id %}">{{ item.title }}</a></li>
+                {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-bar-card">
+        <div class="card-title">最新文章</div>
+        <div class="card-body">
+          <div class="list">
+            <div class="item">    
+              <div class="titl">
+                <ul style="padding-left:10px">
+                {% for item in most_new_arts %}
+                  <li><a href="{% url 'blog:article_detail' item.id %}">{{ item.title }}</a></li>
+                {% endfor %}
+                <ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+{% endblock %}

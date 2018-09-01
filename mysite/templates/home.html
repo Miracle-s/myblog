@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+{% load poll_extras %}
+
+    {% if info_category %}
+        <div class="col-sm-9">
+            <h2 style="text-align:center; padding-top:40px">{{info_category}}</h2>
+        </div>
+    {% endif %}
+    {% if columns %}
+    <div class="col-sm-2">
+      <div class="list-group side-bar">
+        {% for item in columns %}
+            {% if item.column == column.column %}
+                <a href="{% url 'blog:column' column.id %}" class="list-group-item active">{{ column.column }}</a>
+            {% else %}
+                <a href="{% url 'blog:column' item.id %}" class="list-group-item">{{ item.column }}</a>
+            {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% if articles %}
+    <div class="col-sm-7 show-main">
+        {% for item in articles %}
+       <div class="news-list">
+        <div class="news-list-item clearfix">
+          <div class="col-xs-4">
+            <a href="{% url 'blog:article_detail' item.id %}"><img src="{% static 'img/python.png' %}" alt="showTime"></a>
+          </div>
+          <div class="col-xs-8 show-main">
+            <div class="title">
+              <a href="{% url 'blog:article_detail' item.id %}">{{ item.title }}</a>
+            </div>
+            <div class="info">
+              <span><a href="#" class="glyphicon glyphicon-user">{{ item.author }}</a></span>
+              <span class="glyphicon glyphicon-eye-open">{{ item.num_read }}</span>
+              <span>{{ item.c_date }}</span>
+            </div>
+            <div class="bref">
+              {{ item.bref }}
+            </div>
+          </div>
+        </div>
+      </div>
+       {% endfor %}
+        <hr>
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+
+    {% if cus_list.has_previous %}
+     <li>
+         <a href="?page={{ cus_list.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</sapn>
+         </a>
+     </li>
+    {% endif %}
+
+
+    {% for pg in cus_list.paginator.page_range %}
+        {% circle_page cus_list.number pg %}
+    {% endfor %}
+
+
+    {% if cus_list.has_next %}
+        <li>
+            <a href="?page={{ cus_list.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    {% endif %}
+  </ul>
+</nav>
+        
+
+    </div>
+    {% elif info_column %}
+        <div class="col-sm-7 show-main">
+            <h3 style="padding-top:40px; text-align:center ">{{info_column}}</h3>
+        </div>
+    {% endif %}
+
+    <div class="col-sm-3">
+      <div class="side-bar-card flag clearfix">
+          <div class="text-lg">SnailPy</div>
+          <img src="{% static 'img/snailpy_1.jpg'%}" alt="">
+          <div class="info_blog">python 爱好者，欢迎交流！！</div>
+          <div class="info_blog">Email：18591838081@139.com</div>
+      </div>
+
+      <div class="side-bar-card">
+        <div class="card-title">最受欢迎文章</div>
+        <div class="card-body">
+          <div class="list">
+            <div class="item">
+              <div class="titl">
+                <ul style="padding-left:10px">
+                {% for item in most_like_arts %}
+                  <li><a href="{% url 'blog:article_detail' item.id %}">{{ item.title }}</a></li>
+                {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-bar-card">
+        <div class="card-title">最新文章</div>
+        <div class="card-body">
+          <div class="list">
+            <div class="item">    
+              <div class="titl">
+                <ul style="padding-left:10px">
+                {% for item in most_new_arts %}
+                  <li><a href="{% url 'blog:article_detail' item.id %}">{{ item.title }}</a></li>
+                {% endfor %}
+                <ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+{% endblock %}
